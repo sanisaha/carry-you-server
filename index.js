@@ -49,7 +49,7 @@ async function run() {
             if (req.query.email) {
                 query = { email: req.query.email }
             }
-            const cursor = reviewsCollection.find(query);
+            const cursor = reviewsCollection.find(query).sort({ date: -1 });
             const reviews = await cursor.toArray();
             res.send(reviews);
         })
