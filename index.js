@@ -18,9 +18,14 @@ async function run() {
         const reviewsCollection = client.db('carry-you').collection('reviews');
         app.get('/limitedServices', async (req, res) => {
             const query = {};
-            const cursor = serviceCollections.find(query);
+            const cursor = serviceCollections.find(query).sort({ date: -1 });
             const limitedServices = await cursor.limit(3).toArray();
             res.send(limitedServices);
+        })
+        app.post('/services', async (req, res) => {
+            const service = req.body;
+            const result = await serviceCollections.insertOne(service);
+            res.send(result);
         })
         app.get('/services', async (req, res) => {
             const query = {};
